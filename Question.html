@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        </script>
+    </head>
+    <body style="text-align: center;">
+        <!--create form for user input their username and occupation-->
+        <!--addnew row to the table when user input-->
+        <form action="" id="userinput" style="display: inline-block" onsubmit="addRow()" >
+            <input type="text" id="idno" style="width:20pt;" readonly>&emsp;<!--readonly userId no-->
+            <!--name and occupation input-->
+            <input type="text" id="name" name="info" placeholder="UserName" style="width: 60pt;" maxlength="20" required> &emsp;
+            <input type="text" id="occupa" name="info" placeholder="UserOccupation" style="width: 100pt;" required> &emsp;
+            <input type="submit" value= "Add" onclick="save()"  >
+        </form>
+        
+    <br>
+    Sort By: 
+    <!--go to sort function when user click and select sort from dropdown-->
+        <select id="sortselect" style="align-self: center;" onclick="sortTable()">
+        <option >UserID</option>
+        <option >UserName</option>
+        <option >UserOccupation</option>
+    </select>
+    <br><br>
+    <!--create empty table for later add new row from user input and style it -->
+        <table id="dataTable" width="350px" border="1" align="center" >
+        </table>
+       
+        <script src="save.js" type="text/javascript"></script><!--call the javascript save.js-->
+          <script>
+            //prevent the form to refresh to default
+            document.getElementById("userinput").addEventListener("submit", function(event){
+             event.preventDefault()
+            });
+         
+ </script>
+        </body> 
+</html>
