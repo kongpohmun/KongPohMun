@@ -1,0 +1,65 @@
+#include	<opencv2/opencv.hpp>
+#include	<opencv2/highgui/highgui.hpp>
+#include	<iostream>
+#include <fstream>
+#include	"Supp.h"
+#include	<cmath>
+
+using namespace std;
+using namespace cv;
+
+int main(int argc, char** argv) {
+	//const char*		filename = argc >= 2 ? argv[1] : "Inputs/Images/redApple.jpeg";
+	//const char* filename2 = argc >= 2 ? argv[1] : "Inputs/Images/redApple2.jpeg";
+	//Mat				srcI = imread(filename), src2=imread(filename2),srcGray, tmp;
+	int				size;
+	char filename[11][128];
+	string filename2[11];
+	char name[128];
+	const int noOfImagePerCol = 4, noOfImagePerRow = 5;
+	int winI = 0, rows, cols;
+	Mat srcI, largeWin, win[noOfImagePerRow*noOfImagePerCol], legend[noOfImagePerRow*noOfImagePerCol]
+		, tt;
+	std::fstream fs;
+	std::fstream fs2;
+	fs.open("Watermelon/Watermelon.txt", std::fstream::in);
+	fs2.open("Watermelon2/Watermelon2.txt", std::fstream::in);
+	
+	for (int j = 1; j < 11; j++)
+	{
+		fs >> filename[j];
+	}
+	while (!fs2.eof())
+	{
+		for (int j = 1; j < 11; j++)
+		{
+			getline(fs2, filename2[j]);
+		}
+	}
+
+
+	for (int p = 1; p < 11; p++)
+	{
+		srcI = imread(filename[p]);
+		if (srcI.empty())
+		{
+			cout << "cannot open" << filename << endl;
+			return -1;
+		}
+		rows = srcI.rows, cols = srcI.cols;
+		size = 9;
+		createWindowPartition(srcI, largeWin, win, legend, noOfImagePerCol, noOfImagePerRow);
+		//putText(legend[p], "Original", Point(5,11),1,1,Scalar(250,250,250),1);
+		putText(legend[p], "Bilateral blurred, 3", Point(5, 11), 1, 1, Scalar(250, 250, 250), 1);
+		GaussianBlur(srcI, win[p], Size(11, 11), 0, 0);
+		sprintf_s(name, "Input %d", p);
+		imshow(name, win[p]);
+		imwrite(filename2[p], win[p]);
+	
+	}
+
+	cout << "Click the display picture and then press <ESC> to exit\n";
+	waitKey();
+
+	return 0;
+}
